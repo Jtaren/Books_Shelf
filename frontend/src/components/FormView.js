@@ -49,3 +49,37 @@ class FormView extends Component {
 	handleChange = (event) => {
 		this.setState({[event.target.name]:event.target.value})
 	}
+
+	render() {
+		return (
+			<div id="form-view">
+				<div className="search" style={{'display': 'None'}}>
+				<h2>Search</h2>
+				<form className="FormView" id="search-form" onSubmit={this.handleSearch}>
+						<input type="text" name="search" onChange={this.handleChange}/>
+						<input type="submit" className="button" value="Submit"/>
+					</form>
+				</div>
+				<h2>Add a New Book</h2>
+				<form className="FormView" id="add-book-form" onSubmit={this.submitBook}>
+					<label>
+						Title
+						<input type="text" name="title" onChange={this.handleChange}/>
+					</label>
+					<label>
+						Author
+						<input type="text" name="author" onChange={this.handleChange}/>
+					</label>
+					<label>
+						Rating
+						<select name="rating" onChange={this.handleChange}>
+							<option value="1">1</option>
+							<option value="2">2</option>
+							<option value="3">3</option>
+							<option value="4">4</option>
+							<option value="5">5</option>
+						</select>
+					</label>
+					<input type="submit" className="button" value="submit" />
+				</form>
+			</div>
