@@ -83,3 +83,8 @@ class FormView extends Component {
 					<input type="submit" className="button" value="submit" />
 				</form>
 			</div>
+		);
+	}
+}
+	
+export default FormView
