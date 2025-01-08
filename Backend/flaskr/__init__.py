@@ -6,22 +6,22 @@ import random
 
 from models import setup_db, Book
 
-Books/Shelf = 8
+Books_Shelf = 8
 
 def paginate_books(request, selection):
     page = request.args.get("page", 1, type=int)
-    start = (page - 1) * Books/Shelf
-    end = start + Books/Shelf
+    start = (page - 1) * Books_Shelf
+    end = start + Books_Shelf
 
     books = [book.format() for book in selection]
-    current_books = book[start:end]
+    current_books = books[start:end]
 
     return current_books
 
 def create_app(test_config=None):
     # create and configure the app
     app = Flask(__name__)
-    set_up(app)
+    setup_db(app)
     CORS(app)
 
     # CORS Headers
@@ -109,12 +109,36 @@ def create_app(test_config=None):
                     {
                         "success": True,
                         "created": book.id,
-                        "books", current_books,
+                        "books": current_books,
                         "total_books": len(Book.query.all())
                         }
                     )
 
         except:
             abort(422)
+
+    @app.errorhandler(404)
+    def not_found(error):
+        return jsonify({
+            "success": False,
+            "error": 404,
+            "message": "resource not found"
+            }), 404
+
+    @app.errorhandler(422)
+    def unprococessable(error):
+        return jsonify({
+            "success": False,
+            "error": 422,
+            "message": "unprocessale"
+            )}, 422
+
+    @app.errorhandler(400)
+    def bad_request(error):
+        return jsonify({
+            "success": False,
+            "error": 422,
+            "message": "bad request"
+            )}, 400
 
     return app
