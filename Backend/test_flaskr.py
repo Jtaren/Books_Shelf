@@ -78,7 +78,7 @@ class BookTestCase(unittest.TestCase):
         res = self.client().delete('/books/1000')
         data = json.loads(res.data)
 
-        self.assertEqual(res,status_code, 422)
+        self.assertEqual(res.status_code, 422)
         self.assertEqual(data['message'], 'unprocessable')
 
     def test_create_new_book(self):
