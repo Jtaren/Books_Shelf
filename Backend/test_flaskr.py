@@ -5,6 +5,7 @@ import json
 from flaskr import create_app
 from models import setup_db, Book
 
+
 class BookTestCase(unittest.TestCase):
     """This class represents the trivia test case"""
 
@@ -12,7 +13,7 @@ class BookTestCase(unittest.TestCase):
         """Define test variables and initialize app."""
         self.app = create_app()
         self.client = self.app.test_client
-        self.database_name = "bookshelf_test"
+        self.database_name = 'bookshelf_test'
         self.database_path = "postgresql://{}:{}@{}/{}".format('postgres', 'eazye5000', 'localhost:5432', self.database_name)
         setup_db(self.app, self.database_path)
 
@@ -44,13 +45,25 @@ class BookTestCase(unittest.TestCase):
         self.assertEqual(data['message'], 'resource not found')
 
     def test_update_book_rating(self):
-        res = start.client().patch('/books/5', json={'rating': 1})
-        data - json.loads(res.data)
+        res = self.client().patch('/books/5', json={'rating': 1})
+        data = json.loads(res.data)
         book = Book.query.filter(Book.id == 5).one_ornone()
 
         self.assertEqual(res.status_code, 200)
         self.assertEqual(data['success'], True)
         self.assertEqual(book.format()['rating'], 1)
+
+    def test_400_for_failed_update(self):
+        res = self.client().patch('/books/5')
+        data = json.loads(res.data)
+
+        self.assertEqual(res.status_code, 400)
+        self.assertEqual(data['success'], False)
+        self.assertEqual(data['message'], 'bad request')
+
+    def test_delete_book(self):
+        res = self.client().delete('books/1')
+        data = json.loads(res.data)
 
 
 # Make the tests conveniently executable
