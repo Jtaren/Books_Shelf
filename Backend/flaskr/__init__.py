@@ -131,7 +131,7 @@ def create_app(test_config=None):
             "success": False,
             "error": 422,
             "message": "unprocessale"
-            )}, 422
+            }), 422
 
     @app.errorhandler(400)
     def bad_request(error):
@@ -139,6 +139,6 @@ def create_app(test_config=None):
             "success": False,
             "error": 422,
             "message": "bad request"
-            )}, 400
+            }), 400
 
     return app
