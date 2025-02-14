@@ -1,1 +1,1 @@
-BookShelf Web Application. 
+BookShelf Web Application
